@@ -22,9 +22,9 @@ public class PlayerInputHandler : MonoBehaviour
         {
             playerController.Jump();
         }
-        if (m_Player.Attack.IsPressed())
+        if (m_Player.Attack.WasPressedThisFrame())
         {
-            playerController.Attack();
+            playerController.StartAttack();
         }
     }
     void FixedUpdate()

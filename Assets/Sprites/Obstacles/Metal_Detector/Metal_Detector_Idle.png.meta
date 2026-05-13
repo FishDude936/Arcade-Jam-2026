@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 942931d00a79f4cc4829465acc1c8dff
+guid: 1f6fcb049a3394240ace7e2b2cde66c1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -856728053782976075
-    second: Baby_Dragon_Idle_1_0
+      213: 732643538092780666
+    second: Metal_Detector_Idle_0
+  - first:
+      213: 2865814566496497966
+    second: Metal_Detector_Idle_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +40,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -51,7 +54,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 20
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,40 +99,93 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Baby_Dragon_Idle_1_0
+      name: Metal_Detector_Idle_0
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 0
-        width: 18
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 10
+        height: 20
+      alignment: 9
+      pivot: {x: 1, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5b9672dcf5a4c14f0800000000000000
-      internalID: -856728053782976075
+      spriteID: 7a3f27fd49effa7419e827b302a565c0
+      internalID: 732643538092780666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Metal_Detector_Idle_1
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 0
+        width: 10
+        height: 20
+      alignment: 9
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13b78163139e3af4c98fde26a624ec7c
+      internalID: 2865814566496497966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Metal_Detector_Idle_2
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 0
+        width: 10
+        height: 20
+      alignment: 9
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc82531bc8b15de40b32feee79bca26e
+      internalID: 839238268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Metal_Detector_Idle_3
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 0
+        width: 10
+        height: 20
+      alignment: 9
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 480f076f377812640a02343caae451ac
+      internalID: 431742165
       vertices: []
       indices: 
       edges: []
@@ -138,7 +194,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 30a1f81bc34fe534597513bcff316b4e
     internalID: 0
     vertices: []
     indices: 
@@ -146,9 +202,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceOnImport
+        value: True
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":true,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":10.0,"y":20.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Baby_Dragon_Idle_1_0: -856728053782976075
+      Metal_Detector_Idle_0: 732643538092780666
+      Metal_Detector_Idle_1: 2865814566496497966
+      Metal_Detector_Idle_2: 839238268
+      Metal_Detector_Idle_3: 431742165
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -8,6 +8,7 @@ public class MetalDetector : MonoBehaviour
     [Header("Variables")]
     [SerializeField] float jumpHeight = 3f;
     [SerializeField] float moveSpeed = 3f;
+    float baseSize;
     //private bool isGrounded = false;
     [Header("Object References")]
     private Rigidbody2D rb;
@@ -23,6 +24,7 @@ public class MetalDetector : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        baseSize = transform.localScale.x;
     }
 
     // Update is called once per frame
@@ -31,9 +33,12 @@ public class MetalDetector : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("Player").transform.position.x < transform.position.x)
         {
             rb.linearVelocityX = -moveSpeed;
+            transform.localScale = new Vector3(-1, 1, 1) * baseSize;
         } else
         {
             rb.linearVelocityX = moveSpeed;
+            transform.localScale = Vector3.one * baseSize;
+            
         }
         RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position - new Vector3(0, 0.1f, 0), transform.localScale, 0, Vector2.up);
         foreach (RaycastHit2D hit in hits)
