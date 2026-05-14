@@ -1,14 +1,15 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class Goal : MonoBehaviour
+public class Bounds : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(collision.gameObject);
-            GameManager.instance.StartNext();
+            Destroy(gameObject);
+            GameManager.instance.StartReset();
+            Destroy(this);
         }
     }
 }

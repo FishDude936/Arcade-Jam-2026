@@ -31,4 +31,8 @@ public class PlayerInputHandler : MonoBehaviour
     {
         playerController.Move(move);
     }
+    void OnDestroy()
+    {
+        m_Actions.Disable();
+    }
 }

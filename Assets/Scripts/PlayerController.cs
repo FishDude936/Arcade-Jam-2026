@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [Header("Variables")]
     [SerializeField] float moveSpeed = 6f;
     [SerializeField] float jumpHeight = 2f;
-    [SerializeField] int attackStrength = 5;
+    // [SerializeField] int attackStrength = 5;
     public bool canMove = true;
     public bool invulnurable = true;
     public bool isGrounded = false;
@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded && canMove)
         {
+            isGrounded = false;
             rb.linearVelocityY = 0;
             rb.AddForceY(Mathf.Sqrt(jumpHeight * -Physics.gravity.y * 2), ForceMode2D.Impulse);
         }
