@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +9,7 @@ public class GameManager : MonoBehaviour
     private static readonly WaitForSeconds _waitForSeconds3 = new(3);
     public static GameManager instance;
     [Header("Variables")]
+    public int lives = 3;
     public int tempScore = 0;
     private int score = 0;
     private float lastInputTime = 0;
@@ -29,16 +29,18 @@ public class GameManager : MonoBehaviour
     }
     public void StartReset()
     {
-        tempScore = 0;
+        AudioManager.instance.PlaySound("GameOver");
         StartCoroutine(Reset());
     }
     IEnumerator Reset()
     {
         yield return _waitForSeconds3;
+        tempScore = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void StartNext()
     {
+        AudioManager.instance.PlaySound("LevelClear");
         score += tempScore;
         tempScore = 0;
         StartCoroutine(Next());
@@ -65,7 +67,8 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        if (Time.deltaTime - lastInputTime >= 180)
+        float deltaInputTime = Time.deltaTime - lastInputTime;
+        if (deltaInputTime >= 180)
         {
             // input timer requirement for arcade machine
             Application.Quit();

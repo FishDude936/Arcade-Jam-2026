@@ -9,6 +9,7 @@ public class Collectable : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            AudioManager.instance.PlaySound("EatFood");
             GameManager.instance.tempScore += scoreValue;
             Destroy(gameObject);
         }

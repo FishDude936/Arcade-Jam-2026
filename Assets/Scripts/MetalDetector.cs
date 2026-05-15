@@ -10,15 +10,17 @@ public class MetalDetector : MonoBehaviour
     [SerializeField] float moveSpeed = 3f;
     private float baseSize;
     private bool isGrounded = true;
-    //private bool isGrounded = false;
     [Header("Object References")]
+    [SerializeField] GameObject weaponPickup;
     private Rigidbody2D rb;
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.GetComponent<PlayerController>().invulnurable = false;
-            Destroy(this);
+            AudioManager.instance.PlaySound("MetalDetectorBuzzer");
+            collision.transform.GetComponent<PlayerController>().canAttack = false;
+            GameObject pickup = Instantiate(weaponPickup);
+            pickup.transform.position = GameObject.FindGameObjectWithTag("Weapon Destination").transform.position;
         } else if (collision.gameObject.CompareTag("Ground"))
         {
             // foreach (ContactPoint2D contact in collision.contacts)
@@ -54,7 +56,6 @@ public class MetalDetector : MonoBehaviour
         {
             rb.linearVelocityX = moveSpeed;
             transform.localScale = Vector3.one * baseSize;
-            
         }
         if (isGrounded)
         {
@@ -63,6 +64,7 @@ public class MetalDetector : MonoBehaviour
     }
     void Jump()
     {
+        AudioManager.instance.PlaySound("MetalDetectorJump");
         isGrounded = false;
         rb.linearVelocityY = 0;
         rb.AddForceY(Mathf.Sqrt(jumpHeight * -Physics.gravity.y * 2), ForceMode2D.Impulse);

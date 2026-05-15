@@ -12,18 +12,20 @@ public class FlyingEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (!collision.GetComponent<PlayerController>().invulnurable)
+            GameManager.instance.lives--;
+            if (GameManager.instance.lives == 0)
             {
                 Destroy(collision.gameObject);
                 GameManager.instance.StartReset();
-            }
-            else
+            } else
             {
+                AudioManager.instance.PlaySound("PlayerHit");
                 collision.GetComponent<PlayerController>().StartKnockback((transform.position - collision.transform.position).normalized * -knockbackStrength);
             }
         }
         if (collision.gameObject.CompareTag("Weapon"))
         {
+            AudioManager.instance.PlaySound("DragonKilled");
             GameManager.instance.tempScore += scoreValue;
             Destroy(gameObject);
         }
@@ -40,10 +42,10 @@ public class FlyingEnemy : MonoBehaviour
             Destroy(this);
             return;
         }
-        if (Vector2.Distance(transform.position, player.transform.position) < attentionRadius && player.GetComponent<PlayerController>().canMove)
-        {
-            transform.localScale = (player.transform.position.x > transform.position.x) ? Vector3.one * baseSize : new Vector3(-1, 1, 1) * baseSize;
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
-        }
+        transform.localScale = (player.transform.position.x > transform.position.x) ? Vector3.one * baseSize : new Vector3(-1, 1, 1) * baseSize;
+        // if (Vector2.Distance(transform.position, player.transform.position) < attentionRadius && player.GetComponent<PlayerController>().canMove)
+        // {
+        //     transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+        // }
     }
 }

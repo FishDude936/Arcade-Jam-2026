@@ -13,59 +13,67 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpHeight = 2f;
     // [SerializeField] int attackStrength = 5;
     public bool canMove = true;
-    public bool invulnurable = true;
+    public bool canAttack = true;
     public bool isGrounded = false;
+    [SerializeField] LayerMask groundLayer;
+    private float scale;
     [Header("Object References")]
     private Rigidbody2D rb;
     private Animator animator;
+    private Collider2D cldr;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        cldr = GetComponent<Collider2D>();
+        scale = transform.localScale.x;
     }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            for (int i = 0; i < collision.contactCount; i++)
-            {
-                ContactPoint2D contact = collision.GetContact(i);
-                if (contact.point.y < transform.position.y)
-                {
-                    isGrounded = true;
-                }
-            }
-        }
-    }
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            // for (int i = 0; i < collision.contactCount; i++)
-            // {
-            //     ContactPoint2D contact = collision.GetContact(i);
-            //     if (contact.point.y < transform.position.y)
-            //     {
-            //         isGrounded = true;
-            //     }
-            // }
-            isGrounded = false;
-        }
-    }
-    // void Update()
+    // void OnCollisionEnter2D(Collision2D collision)
     // {
-    //     RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, GetComponent<Collider2D>().bounds.size, 0, Vector2.up);
-    //     foreach (RaycastHit2D hit in hits)
+    //     if (collision.gameObject.CompareTag("Ground"))
     //     {
-    //         if (hit.transform.gameObject.CompareTag("Ground") && transform.InverseTransformPoint(hit.point).y < 0)
-    //         {
-    //             isGrounded = true;
-    //             return;
-    //         }
+    //         // for (int i = 0; i < collision.contactCount; i++)
+    //         // {
+    //         //     ContactPoint2D contact = collision.GetContact(i);
+    //         //     if (contact.point.y < transform.position.y)
+    //         //     {
+    //         //         isGrounded = true;
+    //         //     }
+    //         // }
+    //         isGrounded = true;
     //     }
-    //     isGrounded = false;
     // }
+    // void OnCollisionExit2D(Collision2D collision)
+    // {
+    //     if (collision.gameObject.CompareTag("Ground"))
+    //     {
+    //         // for (int i = 0; i < collision.contactCount; i++)
+    //         // {
+    //         //     ContactPoint2D contact = collision.GetContact(i);
+    //         //     if (contact.point.y < transform.position.y)
+    //         //     {
+    //         //         isGrounded = true;
+    //         //     }
+    //         // }
+    //         isGrounded = false;
+    //     }
+    // }
+    void Update()
+    {
+        // RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, GetComponent<Collider2D>().bounds.size, 0, Vector2.up);
+        // foreach (RaycastHit2D hit in hits)
+        // {
+        //     if (hit.transform.gameObject.CompareTag("Ground") && transform.InverseTransformPoint(hit.point).y < 0)
+        //     {
+        //         isGrounded = true;
+        //         return;
+        //     }
+        // }
+        // isGrounded = false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1, groundLayer);
+        isGrounded = hit && cldr.IsTouching(hit.collider);
+    }
     public void Move(Vector2 moveVector)
     {
         if (canMove)
@@ -74,24 +82,24 @@ public class PlayerController : MonoBehaviour
         }
         if (rb.linearVelocityX > 0)
         {
-            transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one * scale;
         } else if (rb.linearVelocityX < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1) * scale;
         }
     }
     public void Jump()
     {
         if (isGrounded && canMove)
         {
-            isGrounded = false;
+            // isGrounded = false;
             rb.linearVelocityY = 0;
             rb.AddForceY(Mathf.Sqrt(jumpHeight * -Physics.gravity.y * 2), ForceMode2D.Impulse);
         }
     }
     public void StartAttack()
     {
-        if (!transform.Find("Weapon").gameObject.activeSelf)
+        if (!transform.Find("Weapon").gameObject.activeSelf && canAttack)
         {
             StartCoroutine(Attack());
         }

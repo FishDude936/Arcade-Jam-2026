@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MetalDetector
   jumpHeight: 3
   moveSpeed: 0
+  weaponPickup: {fileID: 2997101233264829152, guid: 4268adc5f5717a6429e9a6a343175e7f, type: 3}
 --- !u!50 &2877852058540503463
 Rigidbody2D:
   serializedVersion: 5
@@ -259,7 +260,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!61 &6223706468135838409
 BoxCollider2D:
   m_ObjectHideFlags: 0
