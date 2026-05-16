@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public int lives = 3;
     public int tempScore = 0;
     private int score = 0;
+    private int oneUps = 1;
     private float lastInputTime = 0;
     // [Header("Object References")]
     
@@ -35,14 +36,25 @@ public class GameManager : MonoBehaviour
     IEnumerator Reset()
     {
         yield return _waitForSeconds3;
-        tempScore = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (lives == 0)
+        {
+            SceneManager.LoadScene(0);
+        } 
+        else {
+            tempScore = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
     public void StartNext()
     {
         AudioManager.instance.PlaySound("LevelClear");
         score += tempScore;
         tempScore = 0;
+        if (score >= 1000 * oneUps)
+        {
+            lives++;
+            oneUps++;
+        }
         StartCoroutine(Next());
     }
     IEnumerator Next()
@@ -56,9 +68,14 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(currentSceneIndex + 1);
         }
     }
-    public string GetScoreText()
+    public int GetScore()
     {
-        return (score + tempScore).ToString();
+        return score + tempScore;
+    }
+    public void ResetScore()
+    {
+        score = 0;
+        tempScore = 0;
     }
     void ChangeInputTime(InputControl button)
     {

@@ -23,6 +23,10 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    void Start()
+    {
+        PlaySong("KnightFlight-BGM");
+    }
     public void PlaySong(string songName)
     {
         AudioClip selectedSong = null;

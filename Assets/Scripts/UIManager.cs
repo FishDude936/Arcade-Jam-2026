@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] Transform hearts;
     void Update()
     {
-        scoreText.text = GameManager.instance.GetScoreText();
+        scoreText.text = GameManager.instance.GetScore().ToString();
         for (int i = 1; i < 4; i++)
         {
             hearts.Find(i.ToString()).gameObject.SetActive(GameManager.instance.lives >= i);
