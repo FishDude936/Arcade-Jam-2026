@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         } 
         else {
             tempScore = 0;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
     public void StartNext()
@@ -61,12 +61,13 @@ public class GameManager : MonoBehaviour
     {
         yield return _waitForSeconds3;
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (currentSceneIndex == SceneManager.sceneCount - 1)
-        {
-            SceneManager.LoadScene(0);
-        } else {
-            SceneManager.LoadScene(currentSceneIndex + 1);
-        }
+        // if (currentSceneIndex == SceneManager.sceneCount - 1)
+        // {
+        //     SceneManager.LoadScene(0);
+        // } else {
+        //     SceneManager.LoadScene(currentSceneIndex + 1);
+        // }
+        SceneManager.LoadScene(currentSceneIndex);
     }
     public int GetScore()
     {

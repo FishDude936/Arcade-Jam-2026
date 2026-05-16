@@ -70,8 +70,8 @@ public class HighscoreManager : MonoBehaviour
             return data;
         } else
         {
-            Debug.Log($"Data not found at {filepath}");
-            return null;
+            Debug.LogError($"Data not found at {filepath}");
+            return new SaveData();
         }
     }
     void UpdateLeaderboard(SaveData scores)
