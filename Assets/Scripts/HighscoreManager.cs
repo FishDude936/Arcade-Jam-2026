@@ -17,7 +17,11 @@ public class HighscoreManager : MonoBehaviour
     void Start()
     {
         SaveData data = LoadScores();
+        Debug.Log("Before Scores:");
+        LogScores(data);
         data = UpdateScores(data);
+        Debug.Log("After Scores:");
+        LogScores(data);
         UpdateLeaderboard(data);
         SaveScores(data);
     }
@@ -39,11 +43,12 @@ public class HighscoreManager : MonoBehaviour
                 if (data.highscores[i] < GameManager.instance.GetScore())
                 {
                     inputField.transform.parent.gameObject.SetActive(true);
-                    while (inputField.text.Length < 3)
-                    {
-                        inputField.ActivateInputField();
-                    }
-                    string name = inputField.text;
+                    // while (inputField.text.Length < 3)
+                    // {
+                    //     inputField.ActivateInputField();
+                    // }
+                    // string name = inputField.text;
+                    string name = "JEM";
                     inputField.transform.parent.gameObject.SetActive(false);
                     for (int j = 9; j > i; j--)
                     {
@@ -52,6 +57,7 @@ public class HighscoreManager : MonoBehaviour
                     }
                     data.highscores[i] = GameManager.instance.GetScore();
                     data.names[i] = name;
+                    return data;
                 }
             }
         }
@@ -70,7 +76,7 @@ public class HighscoreManager : MonoBehaviour
             return data;
         } else
         {
-            Debug.LogError($"Data not found at {filepath}");
+            Debug.Log($"Data not found at {filepath}");
             return new SaveData();
         }
     }
@@ -88,9 +94,20 @@ public class HighscoreManager : MonoBehaviour
                 {
                     GameObject scoreObject = Instantiate(scorePrefab, scoreUI);
                     scoreObject.GetComponent<TMP_Text>().text = $"{scores.names[i]} - {scores.highscores[i]}";
-                    scoreObject.transform.position = new Vector3(scoreObject.transform.position.x, 400 - (100 * i));
+                    scoreObject.GetComponent<TMP_Text>().enabled = true;
+                    scoreObject.transform.localPosition = new Vector3(scoreObject.transform.position.x, 400 - (100 * i), 0);
                 }
             }
         }
+    }
+    void LogScores(SaveData scores)
+    {
+        for (int i = 0; i < 10; i++)
+            {
+                if (scores.highscores[i] > 0)
+                {
+                    Debug.Log($"{scores.names[i]} - {scores.highscores[i]}");
+                }
+            }
     }
 }

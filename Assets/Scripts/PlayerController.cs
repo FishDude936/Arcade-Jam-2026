@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private static readonly int IsAttackingHash = Animator.StringToHash("isAttacking");
+    private static readonly int IsWalkingHash = Animator.StringToHash("isWalking");
     private static readonly WaitForSeconds _waitForSeconds1 = new(1);
     [Header("Variables")]
     [SerializeField] float moveSpeed = 6f;
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             rb.linearVelocityX = moveVector.x * moveSpeed;
+            animator.SetBool(IsWalkingHash, true);
         }
         if (rb.linearVelocityX > 0)
         {
@@ -86,6 +89,9 @@ public class PlayerController : MonoBehaviour
         } else if (rb.linearVelocityX < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1) * scale;
+        } else
+        {
+            animator.SetBool(IsWalkingHash, false);
         }
     }
     public void Jump()
@@ -99,16 +105,21 @@ public class PlayerController : MonoBehaviour
     }
     public void StartAttack()
     {
-        if (!transform.Find("Weapon").gameObject.activeSelf && canAttack)
+        
+        if (!animator.GetBool(IsAttackingHash) && canAttack)
         {
             StartCoroutine(Attack());
         }
     }
     IEnumerator Attack()
     {
-        transform.Find("Weapon").gameObject.SetActive(true);
-        yield return _waitForSeconds1;
-        transform.Find("Weapon").gameObject.SetActive(false);
+        animator.SetBool(IsAttackingHash, true);
+        yield return new WaitForEndOfFrame();
+        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        animator.SetBool(IsAttackingHash, false);
     }
     public void StartKnockback(Vector2 force)
     {
