@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
             m_actions = new();
             m_UI = m_actions.UI;
             m_UI.Enable();
-            m_UI.MiddleClick.started += ctx => Application.Quit();
+            m_UI.MiddleClick.started += ctx => QuitGame();
             m_UI.StartGame.started += ctx => StartGame();
         } else
         {
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     {
         yield return _waitForSeconds3;
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (currentSceneIndex == SceneManager.sceneCount - 1)
+        if (currentSceneIndex == SceneManager.sceneCountInBuildSettings - 1)
         {
             SceneManager.LoadScene(0);
         } else {
@@ -96,6 +96,11 @@ public class GameManager : MonoBehaviour
     public Vector2 GetMovementVector()
     {
         return m_UI.NameSelect.ReadValue<Vector2>();
+    }
+    public void QuitGame()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
     }
     void ChangeInputTime(InputControl button)
     {
