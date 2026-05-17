@@ -105,20 +105,24 @@ public class PlayerController : MonoBehaviour
     }
     public void StartAttack()
     {
-        
         if (!animator.GetBool(IsAttackingHash) && canAttack)
         {
-            StartCoroutine(Attack());
+            // StartCoroutine(Attack());
+            animator.SetBool(IsAttackingHash, true);
         }
     }
-    IEnumerator Attack()
+    // IEnumerator Attack()
+    // {
+    //     animator.SetBool(IsAttackingHash, true);
+    //     yield return new WaitForEndOfFrame();
+    //     while (animator.GetAnimatorTransitionInfo(0).normalizedTime < 1.0f)
+    //     {
+    //         yield return new WaitForEndOfFrame();
+    //     }
+    //     animator.SetBool(IsAttackingHash, false);
+    // }
+    public void FinishAttack()
     {
-        animator.SetBool(IsAttackingHash, true);
-        yield return new WaitForEndOfFrame();
-        while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
         animator.SetBool(IsAttackingHash, false);
     }
     public void StartKnockback(Vector2 force)

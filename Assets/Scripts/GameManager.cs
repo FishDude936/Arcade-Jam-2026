@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private int oneUps = 1;
     private float lastInputTime = 0;
+    private float levelStartTime;
     // [Header("Object References")]
     
     void Awake()
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
     public void StartNext()
     {
         AudioManager.instance.PlaySound("LevelClear");
+        tempScore += 500 - (25 * Mathf.FloorToInt(levelStartTime - Time.time));
         score += tempScore;
         tempScore = 0;
         if (score >= 1000 * oneUps)
@@ -68,6 +70,12 @@ public class GameManager : MonoBehaviour
         //     SceneManager.LoadScene(currentSceneIndex + 1);
         // }
         SceneManager.LoadScene(currentSceneIndex);
+        levelStartTime = Time.time;
+    }
+    public void StartGame()
+    {
+        SceneManager.LoadScene(1);
+        levelStartTime = Time.time;
     }
     public int GetScore()
     {

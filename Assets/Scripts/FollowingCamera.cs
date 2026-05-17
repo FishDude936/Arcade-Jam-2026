@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class FollowingCamera : MonoBehaviour
 {
     [SerializeField] Transform target;
+    [SerializeField] float minXClamp = 0, maxXClamp = 10;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,6 +19,6 @@ public class FollowingCamera : MonoBehaviour
             Destroy(this);
             return;
         }
-        transform.position = new Vector3(target.position.x, 0, transform.position.z);
+        transform.position = new Vector3(Mathf.Clamp(target.position.x, minXClamp, maxXClamp), 0, transform.position.z);
     }
 }

@@ -3839,6 +3839,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FollowingCamera
   target: {fileID: 0}
+  minXClamp: 0
+  maxXClamp: 10
 --- !u!1 &1563279159
 GameObject:
   m_ObjectHideFlags: 0
@@ -3931,12 +3933,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4209,6 +4223,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380743490651066788, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.5
       objectReference: {fileID: 0}
@@ -4255,6 +4273,10 @@ PrefabInstance:
     - target: {fileID: 4639759165571374034, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677547144350756551, guid: e80e12877ca9f0f46a87cb2d7c51e4dd, type: 3}
+      propertyPath: fireballOffset
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4357,6 +4379,14 @@ PrefabInstance:
     - target: {fileID: 5075706978333021857, guid: 143c61dd21605db448c8282b55df2e8f, type: 3}
       propertyPath: m_Name
       value: MetalDetector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903810403877323304, guid: 143c61dd21605db448c8282b55df2e8f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903810403877323304, guid: 143c61dd21605db448c8282b55df2e8f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8903810403877323304, guid: 143c61dd21605db448c8282b55df2e8f, type: 3}
       propertyPath: m_LocalScale.z

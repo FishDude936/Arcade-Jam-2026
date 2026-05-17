@@ -7,7 +7,11 @@ public class FlyingEnemy : MonoBehaviour
     [SerializeField] float moveSpeed = 3f;
     [SerializeField] float knockbackStrength = 10f;
     [SerializeField] int scoreValue = 50;
-    float baseSize;
+    [SerializeField] int fireballRate = 4;
+    [SerializeField] int fireballOffset = 0;
+    [SerializeField] GameObject fireball;
+    private float lastFireballTime = 0;
+    private float baseSize;
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -33,6 +37,7 @@ public class FlyingEnemy : MonoBehaviour
     void Start()
     {
         baseSize = transform.localScale.x;
+        lastFireballTime = fireballOffset;
     }
     void Update()
     {
@@ -43,6 +48,13 @@ public class FlyingEnemy : MonoBehaviour
             return;
         }
         transform.localScale = (player.transform.position.x > transform.position.x) ? Vector3.one * baseSize : new Vector3(-1, 1, 1) * baseSize;
+        if (Mathf.FloorToInt(Time.time - lastFireballTime) == fireballRate)
+        {
+            lastFireballTime = Time.time;
+            GameObject fire = Instantiate(fireball);
+            fire.transform.position = transform.Find("FireballStart").position;
+            fire.transform.localEulerAngles = new Vector3(0, 0, player.transform.position.x > transform.position.x ? 0 : 180);
+        }
         // if (Vector2.Distance(transform.position, player.transform.position) < attentionRadius && player.GetComponent<PlayerController>().canMove)
         // {
         //     transform.position = Vector2.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.deltaTime);
