@@ -4355,6 +4355,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1.25
       objectReference: {fileID: 0}
+    - target: {fileID: 5638574575159824455, guid: b8513cd6d8ecec846885eca50eb53a07, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7653994325384808358, guid: b8513cd6d8ecec846885eca50eb53a07, type: 3}
       propertyPath: m_Name
       value: Player
