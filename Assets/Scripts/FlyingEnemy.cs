@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class FlyingEnemy : MonoBehaviour
 {
-    [SerializeField] float attentionRadius = 5f;
-    [SerializeField] float moveSpeed = 3f;
+    // [SerializeField] float attentionRadius = 5f;
+    // [SerializeField] float moveSpeed = 3f;
     [SerializeField] float knockbackStrength = 10f;
     [SerializeField] int scoreValue = 50;
     [SerializeField] int fireballRate = 4;
@@ -37,7 +37,7 @@ public class FlyingEnemy : MonoBehaviour
     void Start()
     {
         baseSize = transform.localScale.x;
-        lastFireballTime = fireballOffset;
+        lastFireballTime = GameManager.instance.levelStartTime + fireballOffset;
     }
     void Update()
     {
@@ -48,7 +48,7 @@ public class FlyingEnemy : MonoBehaviour
             return;
         }
         transform.localScale = (player.transform.position.x > transform.position.x) ? Vector3.one * baseSize : new Vector3(-1, 1, 1) * baseSize;
-        if (Mathf.FloorToInt(Time.time - lastFireballTime) == fireballRate)
+        if (Mathf.FloorToInt(Time.time - lastFireballTime) >= fireballRate)
         {
             lastFireballTime = Time.time;
             GameObject fire = Instantiate(fireball);

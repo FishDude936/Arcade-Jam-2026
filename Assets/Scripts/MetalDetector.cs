@@ -15,12 +15,12 @@ public class MetalDetector : MonoBehaviour
     private Rigidbody2D rb;
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<PlayerController>().canAttack)
         {
             AudioManager.instance.PlaySound("MetalDetectorBuzzer");
             collision.transform.GetComponent<PlayerController>().canAttack = false;
             GameObject pickup = Instantiate(weaponPickup);
-            pickup.transform.position = GameObject.FindGameObjectWithTag("Weapon Destination").transform.position;
+            pickup.transform.position = new Vector3(transform.position.x, 0);
         } else if (collision.gameObject.CompareTag("Ground"))
         {
             // foreach (ContactPoint2D contact in collision.contacts)

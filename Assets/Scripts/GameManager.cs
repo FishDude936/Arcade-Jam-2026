@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private static readonly WaitForSeconds _waitForSeconds3 = new(3);
+    public InputSystem_Actions m_actions;
+    private InputSystem_Actions.UIActions m_UI;
     public static GameManager instance;
     [Header("Variables")]
     public int lives = 3;
@@ -14,7 +16,7 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private int oneUps = 1;
     private float lastInputTime = 0;
-    private float levelStartTime;
+    public float levelStartTime;
     // [Header("Object References")]
     
     void Awake()
@@ -24,6 +26,11 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
             InputSystem.onAnyButtonPress.Call(ChangeInputTime);
+            m_actions = new();
+            m_UI = m_actions.UI;
+            m_UI.Enable();
+            m_UI.MiddleClick.started += ctx => Application.Quit();
+            m_UI.StartGame.started += ctx => StartGame();
         } else
         {
             Destroy(gameObject);
@@ -49,7 +56,7 @@ public class GameManager : MonoBehaviour
     public void StartNext()
     {
         AudioManager.instance.PlaySound("LevelClear");
-        tempScore += 500 - (25 * Mathf.FloorToInt(levelStartTime - Time.time));
+        tempScore += Mathf.CeilToInt(1000/(Time.time - levelStartTime));
         score += tempScore;
         tempScore = 0;
         if (score >= 1000 * oneUps)
@@ -63,28 +70,32 @@ public class GameManager : MonoBehaviour
     {
         yield return _waitForSeconds3;
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        // if (currentSceneIndex == SceneManager.sceneCount - 1)
-        // {
-        //     SceneManager.LoadScene(0);
-        // } else {
-        //     SceneManager.LoadScene(currentSceneIndex + 1);
-        // }
-        SceneManager.LoadScene(currentSceneIndex);
+        if (currentSceneIndex == SceneManager.sceneCount - 1)
+        {
+            SceneManager.LoadScene(0);
+        } else {
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
         levelStartTime = Time.time;
     }
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
-        levelStartTime = Time.time;
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            score = 0;
+            tempScore = 0;
+            lives = 3;
+            SceneManager.LoadScene(1);
+            levelStartTime = Time.time;
+        }
     }
     public int GetScore()
     {
         return score + tempScore;
     }
-    public void ResetScore()
+    public Vector2 GetMovementVector()
     {
-        score = 0;
-        tempScore = 0;
+        return m_UI.NameSelect.ReadValue<Vector2>();
     }
     void ChangeInputTime(InputControl button)
     {

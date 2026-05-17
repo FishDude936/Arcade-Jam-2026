@@ -10,9 +10,9 @@ public class PlayerInputHandler : MonoBehaviour
     Vector2 move;
     void Awake()
     {
-        m_Actions = new InputSystem_Actions();
-        m_Actions.Enable();
+        m_Actions = GameManager.instance.m_actions;
         m_Player = m_Actions.Player;
+        m_Player.Enable();
         playerController = GetComponent<PlayerController>();
     }
     void Update()
@@ -33,6 +33,6 @@ public class PlayerInputHandler : MonoBehaviour
     }
     void OnDestroy()
     {
-        m_Actions.Disable();
+        m_Player.Disable();
     }
 }

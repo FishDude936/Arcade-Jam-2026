@@ -2,12 +2,15 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using TMPro;
+using System.Collections;
 
 public class HighscoreManager : MonoBehaviour
 {
+    private static WaitForSeconds _waitForSeconds0_3 = new WaitForSeconds(0.3f);
     [SerializeField] RectTransform scoreUI;
     [SerializeField] GameObject scorePrefab;
-    [SerializeField] TMP_InputField inputField;
+    [SerializeField] TMP_Text inputField;
+    [SerializeField] char[] availableNameChars;
     private string filepath;
     void Awake()
     {
@@ -17,12 +20,15 @@ public class HighscoreManager : MonoBehaviour
     void Start()
     {
         SaveData data = LoadScores();
-        Debug.Log("Before Scores:");
-        LogScores(data);
-        data = UpdateScores(data);
-        Debug.Log("After Scores:");
-        LogScores(data);
+        // Debug.Log("Before Scores:");
+        // LogScores(data);
         UpdateLeaderboard(data);
+        if (GameManager.instance && GameManager.instance.GetScore() > 0)
+        {
+            StartCoroutine(UpdateScores(data));
+        }
+        // Debug.Log("After Scores:");
+        // LogScores(data);
         SaveScores(data);
     }
     void SaveScores(SaveData data)
@@ -34,34 +40,64 @@ public class HighscoreManager : MonoBehaviour
 
         datastream.Close();
     }
-    SaveData UpdateScores(SaveData data)
+    IEnumerator UpdateScores(SaveData data)
     {
-        if (GameManager.instance && GameManager.instance.GetScore() > 0)
+        yield return new WaitForEndOfFrame();
+        int greaterIndex = -1;
+        int i = 0;
+        while (i < 10 && greaterIndex == -1)
         {
-            for (int i = 0; i < 10; i++)
+            if (data.highscores[i] < GameManager.instance.GetScore())
             {
-                if (data.highscores[i] < GameManager.instance.GetScore())
-                {
-                    inputField.transform.parent.gameObject.SetActive(true);
-                    // while (inputField.text.Length < 3)
-                    // {
-                    //     inputField.ActivateInputField();
-                    // }
-                    // string name = inputField.text;
-                    string name = "JEM";
-                    inputField.transform.parent.gameObject.SetActive(false);
-                    for (int j = 9; j > i; j--)
-                    {
-                        data.highscores[j] = data.highscores[j - 1];
-                        data.names[j] = data.names[j - 1];
-                    }
-                    data.highscores[i] = GameManager.instance.GetScore();
-                    data.names[i] = name;
-                    return data;
-                }
+                greaterIndex = i;
             }
+            i++;
         }
-        return data;
+        if (greaterIndex != -1)
+        {
+            inputField.transform.parent.gameObject.SetActive(true);
+            int currLetter = 0;
+            int currRow = 0;
+            char[] name = new char[3];
+            while (currRow < 3)
+            {
+                Vector2 movementVector = GameManager.instance.GetMovementVector();
+                if (movementVector.y == 1)
+                {
+                    currLetter = (currLetter + 1) % 26;
+                    yield return _waitForSeconds0_3;
+                } else if (movementVector.y == -1)
+                {
+                    currLetter = currLetter == 0 ? 25 : currLetter - 1;
+                    yield return _waitForSeconds0_3;
+                }
+                name[currRow] = availableNameChars[currLetter];
+                if (movementVector.x == -1 && currRow != 0)
+                {
+                    currRow--;
+                    currLetter = 0;
+                    yield return _waitForSeconds0_3;
+                } else if (movementVector.x == 1)
+                {
+                    currRow++;
+                    currLetter = 0;
+                    yield return _waitForSeconds0_3;
+                }
+                inputField.text = name.ArrayToString();
+                yield return new WaitForEndOfFrame();
+            }
+            // string name = inputField.text;
+            inputField.transform.parent.gameObject.SetActive(false);
+            for (int j = 9; j > greaterIndex; j--)
+            {
+                data.highscores[j] = data.highscores[j - 1];
+                data.names[j] = data.names[j - 1];
+            }
+            data.highscores[greaterIndex] = GameManager.instance.GetScore();
+            data.names[greaterIndex] = name.ArrayToString();
+            UpdateLeaderboard(data);
+            SaveScores(data);
+        }
     }
     SaveData LoadScores()
     {
@@ -93,8 +129,10 @@ public class HighscoreManager : MonoBehaviour
                 if (scores.highscores[i] > 0)
                 {
                     GameObject scoreObject = Instantiate(scorePrefab, scoreUI);
-                    scoreObject.GetComponent<TMP_Text>().text = $"{scores.names[i]} - {scores.highscores[i]}";
-                    scoreObject.GetComponent<TMP_Text>().enabled = true;
+                    TMP_Text scoreText = scoreObject.GetComponent<TMP_Text>();
+                    scoreText.text = $"{scores.names[i]} - {scores.highscores[i]}";
+                    scoreText.enabled = true;
+                    scoreText.color = i == 0 ? Color.gold : i == 1 ? Color.silver : i == 2 ? Color.rosyBrown : Color.white;
                     scoreObject.transform.localPosition = new Vector3(scoreObject.transform.position.x, 400 - (100 * i), 0);
                 }
             }
@@ -103,11 +141,11 @@ public class HighscoreManager : MonoBehaviour
     void LogScores(SaveData scores)
     {
         for (int i = 0; i < 10; i++)
+        {
+            if (scores.highscores[i] > 0)
             {
-                if (scores.highscores[i] > 0)
-                {
-                    Debug.Log($"{scores.names[i]} - {scores.highscores[i]}");
-                }
+                Debug.Log($"{scores.names[i]} - {scores.highscores[i]}");
             }
+        }
     }
 }
