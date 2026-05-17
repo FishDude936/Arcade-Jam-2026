@@ -50,6 +50,7 @@ public class FlyingEnemy : MonoBehaviour
         transform.localScale = (player.transform.position.x > transform.position.x) ? Vector3.one * baseSize : new Vector3(-1, 1, 1) * baseSize;
         if (Mathf.FloorToInt(Time.time - lastFireballTime) >= fireballRate)
         {
+            AudioManager.instance.PlaySound("Fireball");
             lastFireballTime = Time.time;
             GameObject fire = Instantiate(fireball);
             fire.transform.position = transform.Find("FireballStart").position;
